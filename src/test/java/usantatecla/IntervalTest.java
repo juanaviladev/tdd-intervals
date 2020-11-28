@@ -66,4 +66,10 @@ public class IntervalTest {
     assertFalse(interval.include(right.getGreater()));
   }
 
+  @Test
+  public void givenIntervalWhenIntersectWithNullIntervalThenError() {
+    Interval interval = this.intervalBuilder.closed(left.getEquals()).closed(right.getEquals()).build();
+    assertThrows(AssertionError.class, () -> interval.isIntersected(null));
+  }
+
 }
