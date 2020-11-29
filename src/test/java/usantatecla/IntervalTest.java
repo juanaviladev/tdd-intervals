@@ -113,7 +113,7 @@ public class IntervalTest {
                 Arguments.of("-[-------}--","-[-----}----", builder().closed(left.getEquals()).indifferent(right.getGreater()), builder().closed(left.getEquals()).indifferent(right.getEquals()), true),
 
                 Arguments.of("-[-----]----","-[-----]----", builder().closed(left.getEquals()).closed(right.getEquals()), builder().closed(left.getEquals()).closed(right.getEquals()), true),
-                
+
                 Arguments.of("-(-----)----","-(-----)----", builder().open(left.getEquals()).open(right.getEquals()), builder().open(left.getEquals()).open(right.getEquals()), false)
         );
     }
