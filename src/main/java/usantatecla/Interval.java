@@ -15,6 +15,7 @@ public class Interval {
         assert interval != null;
         if(interval.include(this.max.value) || this.include(interval.max.value)) return true;
         if(interval.include(this.min.value)) return true;
+        if(this.include(interval.min.value) || this.include(interval.max.value)) return true;
         return interval.include(this.min.value) && interval.include(this.max.value);
     }
 
