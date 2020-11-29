@@ -101,6 +101,14 @@ public class IntervalTest {
     assertTrue(indifferent.isIntersected(indifferentEncloser));
   }
 
+  @Test
+  public void givenOpenIndifferentIntervalWhenIntersectWithOpenIndifferentIntervalThenTrue() {
+    Interval openIndifferent = builder().open(left.getEquals()).indifferent(right.getEquals()).build();
+    Interval otherOpenIndifferent = builder().open(left.getEquals()).indifferent(right.getLess()).build();
+
+    assertTrue(openIndifferent.isIntersected(otherOpenIndifferent));
+  }
+
   private static IntervalBuilder builder() {
     return new IntervalBuilder();
   }
