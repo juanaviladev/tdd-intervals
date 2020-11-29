@@ -2,8 +2,8 @@ package usantatecla;
 
 public class Interval {
 
-    private Min min;
-    private Max max;
+    private final Min min;
+    private final Max max;
 
     public Interval(Min min, Max max) {
         assert min.value <= max.value;
@@ -13,7 +13,7 @@ public class Interval {
 
     public boolean isIntersected(Interval interval) {
         assert interval != null;
-        return true;
+        return interval.include(this.min.value) && interval.include(this.max.value);
     }
 
     public boolean include(double value) {
@@ -44,11 +44,8 @@ public class Interval {
         } else if (!max.equals(other.max))
             return false;
         if (min == null) {
-            if (other.min != null)
-                return false;
-        } else if (!min.equals(other.min))
-            return false;
-        return true;
+            return other.min == null;
+        } else return min.equals(other.min);
     }
 
     @Override
