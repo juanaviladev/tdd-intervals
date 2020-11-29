@@ -16,13 +16,6 @@ public class IntervalTest {
     private static Point left = pointAt(-2.2);
     private static Point right = pointAt(4.4);
 
-    private static Stream<Arguments> intersectionTestCasesProvider() {
-        return Stream.of(
-                Arguments.of("--{--}-------", "--------{--}-", builder().indifferent(left.getEquals()).indifferent(right.getLess()), builder().indifferent(right.getGreater()).indifferent(right.getGreater()), false),
-                Arguments.of("--(---)------", "--(---]------", builder().open(left.getEquals()).open(right.getEquals()), builder().open(left.getEquals()).closed(right.getEquals()), true)
-        );
-    }
-
     @Test
     public void givenIntervaOpenOpenlwhenIncludeWithIncludedValueThenTrue() {
         Interval interval = builder().open(left.getEquals()).open(right.getEquals()).build();
@@ -76,30 +69,6 @@ public class IntervalTest {
         assertThrows(AssertionError.class, () -> interval.isIntersected(null));
     }
 
-    @Test
-    public void givenLeftIndifferentOpenIntervalWhenIntersectWithOpenClosedIntervalThenTrue() {
-        Interval indifferentOpen = builder().indifferent(left.getEquals()).open(right.getEquals()).build();
-        Interval openClosed = builder().indifferent(left.getLess()).open(right.getEquals()).build();
-
-        assertTrue(indifferentOpen.isIntersected(openClosed));
-    }
-
-    @Test
-    public void givenIndifferentIntervalWhenIntersectWithIndifferentIntervalThenTrue() {
-        Interval indifferent = builder().indifferent(left.getGreater()).indifferent(right.getLess()).build();
-        Interval indifferentEncloser = builder().indifferent(left.getEquals()).indifferent(right.getEquals()).build();
-
-        assertTrue(indifferent.isIntersected(indifferentEncloser));
-    }
-
-    @Test
-    public void givenOpenIndifferentIntervalWhenIntersectWithOpenIndifferentIntervalThenTrue() {
-        Interval openIndifferent = builder().open(left.getEquals()).indifferent(right.getEquals()).build();
-        Interval otherOpenIndifferent = builder().open(left.getEquals()).indifferent(right.getLess()).build();
-
-        assertTrue(openIndifferent.isIntersected(otherOpenIndifferent));
-    }
-
     @ParameterizedTest(name = "#{index} - Test with String : {0} vs. {1}")
     @MethodSource("intersectionTestCasesProvider")
     void test_method_string(String pivot, String other, IntervalBuilder pivotBuilder, IntervalBuilder otherBuilder, boolean expectedResult) {
@@ -107,6 +76,16 @@ public class IntervalTest {
         Interval otherInterval = otherBuilder.build();
 
         assertThat(pivotInterval.isIntersected(otherInterval), CoreMatchers.is(expectedResult));
+    }
+
+    private static Stream<Arguments> intersectionTestCasesProvider() {
+        return Stream.of(
+                Arguments.of("--{--}-------", "--------{--}-", builder().indifferent(left.getEquals()).indifferent(right.getLess()), builder().indifferent(right.getGreater()).indifferent(right.getGreater()), false),
+                Arguments.of("--(---)------", "--(---]------", builder().open(left.getEquals()).open(right.getEquals()), builder().open(left.getEquals()).closed(right.getEquals()), true),
+                Arguments.of("---{--)------", "-{----)------", builder().indifferent(left.getEquals()).open(right.getEquals()), builder().indifferent(left.getLess()).open(right.getEquals()), true),
+                Arguments.of("-----{---}---","---{-------}-", builder().indifferent(left.getGreater()).indifferent(right.getLess()), builder().indifferent(left.getEquals()).indifferent(right.getEquals()), true),
+                Arguments.of("---(------}--","---(----}----", builder().open(left.getEquals()).indifferent(right.getEquals()), builder().open(left.getEquals()).indifferent(right.getLess()), true)
+        );
     }
 
 
