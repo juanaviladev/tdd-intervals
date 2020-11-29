@@ -65,13 +65,15 @@ public class IntervalTest {
 
     @Test
     public void givenIntervalWhenIntersectWithNullIntervalThenError() {
-        Interval interval = builder().closed(left.getEquals()).closed(right.getEquals()).build();
-        assertThrows(AssertionError.class, () -> interval.isIntersected(null));
+        assertThrows(AssertionError.class, () -> {
+            Interval interval = builder().closed(left.getEquals()).closed(right.getEquals()).build();
+            interval.isIntersected(null);
+        });
     }
 
     @ParameterizedTest(name = "#{index} - Test with String : {0} vs. {1}")
     @MethodSource("intersectionTestCasesProvider")
-    void test_method_string(String pivot, String other, IntervalBuilder pivotBuilder, IntervalBuilder otherBuilder, boolean expectedResult) {
+    void givenIntervalWhenIntersectWithOtherThenResult(String pivot, String other, IntervalBuilder pivotBuilder, IntervalBuilder otherBuilder, boolean expectedResult) {
         Interval pivotInterval = pivotBuilder.build();
         Interval otherInterval = otherBuilder.build();
 
