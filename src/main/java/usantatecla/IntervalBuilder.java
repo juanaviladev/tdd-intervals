@@ -39,6 +39,9 @@ public class IntervalBuilder {
 	public Interval build() {
     assert this.minConfigured && this.maxConfigured;
 		return new Interval(this.min, this.max);
-	} 
+	}
 
+  public IntervalBuilder indifferent(double value) {
+    return open(value);
+  }
 }
