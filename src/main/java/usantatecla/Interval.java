@@ -13,8 +13,8 @@ public class Interval {
 
     public boolean isIntersected(Interval interval) {
         assert interval != null;
-       if(this.include(interval) || interval.include(this)) return true;
-        return interval.include(this.max.value) || interval.include(this.min.value);
+        if (this.include(interval) || interval.include(this)) return true;
+        return false;
     }
 
     public boolean include(Interval interval) {
