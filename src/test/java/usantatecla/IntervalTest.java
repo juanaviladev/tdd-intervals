@@ -77,6 +77,14 @@ public class IntervalTest {
     assertFalse(interval.isIntersected(nonEnclosed));
   }
 
+  @Test
+  public void givenOpenIntervalWhenIntersectWithOpenClosedIntervalThenTrue() {
+    Interval openInterval = builder().open(left.getEquals()).open(right.getEquals()).build();
+    Interval openClosed = builder().open(left.getEquals()).closed(right.getEquals()).build();
+
+    assertTrue(openInterval.isIntersected(openClosed));
+  }
+
   private static IntervalBuilder builder() {
     return new IntervalBuilder();
   }
