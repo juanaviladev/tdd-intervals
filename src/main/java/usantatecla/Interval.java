@@ -14,8 +14,7 @@ public class Interval {
     public boolean isIntersected(Interval interval) {
         assert interval != null;
         if(this.include(interval.max.value) || this.include(interval.min.value)) return true;
-        if(interval.include(this.max.value) || interval.include(this.min.value)) return true;
-        return false;
+        return interval.include(this.max.value) || interval.include(this.min.value);
     }
 
     public boolean include(double value) {
